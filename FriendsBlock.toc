@@ -2,14 +2,14 @@
 
 ## Title: Friends Block
 ## Notes: Minimalistic LegoBlock-based friends display
-## Author: Thiana of Kirin Tor
+## Author: Tekkub Stoutwrithe
+## Version: Alpha
 
-## OptionalDeps: Ace2, FuBar, TabletLib, FuBarPlugin-2.0, Dongle, OptionHouse
+## OptionalDeps: Dongle
 
 ## SavedVariables: FriendsBlockDB
 
 Dongle.lua
 LegoBlock.lua
-OptionHouse.lua
 
 FriendsBlock.lua

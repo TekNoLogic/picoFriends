@@ -164,6 +164,7 @@ lego:SetScript("OnClick", function()
 	else
 		ToggleFriendsFrame(1)
 		FriendsFrame_Update()
+		GameTooltip:Hide()
 	end
 end)
 
