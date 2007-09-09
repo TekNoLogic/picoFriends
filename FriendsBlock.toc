@@ -9,6 +9,9 @@
 
 ## SavedVariables: FriendsBlockDB
 
+## LoadManagers: AddonLoader
+## X-LoadOn-Always: delayed
+
 Dongle.lua
 LegoBlock.lua
 
