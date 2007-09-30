@@ -94,7 +94,7 @@ function FriendsBlock:FRIENDLIST_UPDATE()
 
 	local uid = GetTime()
 	for i = 1,GetNumFriends() do
-		local name, level, class, area, connected = GetFriendInfo(i)
+		local name, level, class, area, connected, status = GetFriendInfo(i)
 
 		if name then
 			if not friends[name] then friends[name] = {} end
@@ -105,6 +105,7 @@ function FriendsBlock:FRIENDLIST_UPDATE()
 			t.level = level
 			t.class = class
 			t.area  = area
+			t.status = status
 			t.connected = connected
 			if connected then online = online + 1 end
 		end
@@ -142,7 +143,7 @@ lego:SetScript("OnEnter", function(self)
 	for name,data in pairs(friends) do
 		if data.connected then
 			online = true
-			GameTooltip:AddDoubleLine(string.format("|cff%s%s:%s|r", colors[data.class:upper()] or "000000", data.level or "", name), "|cffffffff"..(data.area or ""))
+			GameTooltip:AddDoubleLine(string.format("|cff%s%s:%s|r %s", colors[data.class:upper()] or "000000", data.level or "", name, data.status), "|cffffffff"..(data.area or ""))
 		end
 	end
 
