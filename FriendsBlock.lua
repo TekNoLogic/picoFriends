@@ -29,8 +29,8 @@ for class,color in pairs(RAID_CLASS_COLORS) do colors[class] = string.format("%0
 -------------------------------------------
 
 FriendsBlock = DongleStub("Dongle-1.0"):New("FriendsBlock")
-local lego = DongleStub("LegoBlock-Beta0"):New("FriendsBlock", "50/50", "Interface\\Addons\\FriendsBlock\\icon")
---~ if tekDebug then FriendsBlock:EnableDebug(1, tekDebug:GetFrame("FriendsBlock")) end
+local f = CreateFrame("frame")
+
 
 local dataobj = {icon = "Interface\\Addons\\FriendsBlock\\icon", text = "50/50"}
 LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("FriendsBlock", dataobj)
@@ -60,26 +60,18 @@ end
 ---------------------------
 
 function FriendsBlock:Initialize()
-	local blockdefaults = {
-		locked = false,
-		showIcon = true,
-		showText = true,
-		shown = true,
-	}
+	if FriendsBlockDB and FriendsBlockDB.profiles then FriendsBlockDB = nil end
+	FriendsBlockDB = FriendsBlockDB or {}
 
-	self.db = self:InitializeDB("FriendsBlockDB", {profile = {block = blockdefaults}}, "global")
+	LibStub:GetLibrary("tekBlock"):new("FriendsBlock", FriendsBlockDB)
 end
 
 
 function FriendsBlock:Enable()
-	lego:SetDB(self.db.profile.block)
-
 	self:RegisterEvent("FRIENDLIST_UPDATE")
 	self:RegisterEvent("CHAT_MSG_SYSTEM")
 
-	LibStub:GetLibrary("LibDataBroker-1.1").RegisterCallback(self, "LibDataBroker_AttributeChanged_FriendsBlock_text", "TextUpdate")
-
-	lego:SetScript("OnUpdate", OnUpdate)
+	f:SetScript("OnUpdate", OnUpdate)
 	ShowFriends()
 end
 
@@ -123,11 +115,6 @@ function FriendsBlock:FRIENDLIST_UPDATE()
 end
 
 
-function FriendsBlock:TextUpdate(event, name, key, value)
-	lego:SetText(value)
-end
-
-
 ------------------------
 --      Tooltip!      --
 ------------------------
@@ -141,8 +128,8 @@ local function GetTipAnchor(frame)
 end
 
 
-local function OnLeave() GameTooltip:Hide() end
-local function OnEnter(self)
+function dataobj.OnLeave() GameTooltip:Hide() end
+function dataobj.OnEnter(self)
  	GameTooltip:SetOwner(self, "ANCHOR_NONE")
 	GameTooltip:SetPoint(GetTipAnchor(self))
 	GameTooltip:ClearLines()
@@ -164,17 +151,11 @@ local function OnEnter(self)
 end
 
 
-lego:SetScript("OnEnter", OnEnter)
-lego:SetScript("OnLeave", OnLeave)
-dataobj.OnEnter = OnEnter
-dataobj.OnLeave = OnLeave
-
-
 ------------------------------------------
 --      Click to open friend panel      --
 ------------------------------------------
 
-local function OnClick()
+function dataobj.OnClick()
 	if FriendsFrame:IsVisible() then HideUIPanel(FriendsFrame)
 	else
 		ToggleFriendsFrame(1)
@@ -182,10 +163,3 @@ local function OnClick()
 		GameTooltip:Hide()
 	end
 end
-
-
-lego:EnableMouse(true)
-lego:RegisterForClicks("anyUp")
-lego:SetScript("OnClick", OnClick)
-dataobj.OnClick = OnClick
-
