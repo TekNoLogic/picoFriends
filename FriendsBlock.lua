@@ -32,6 +32,9 @@ FriendsBlock = DongleStub("Dongle-1.0"):New("FriendsBlock")
 local lego = DongleStub("LegoBlock-Beta0"):New("FriendsBlock", "50/50", "Interface\\Addons\\FriendsBlock\\icon")
 --~ if tekDebug then FriendsBlock:EnableDebug(1, tekDebug:GetFrame("FriendsBlock")) end
 
+local dataobj = {icon = "Interface\\Addons\\FriendsBlock\\icon", text = "50/50"}
+LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("FriendsBlock", dataobj)
+
 
 ----------------------------------
 --      Server query timer      --
@@ -74,6 +77,8 @@ function FriendsBlock:Enable()
 	self:RegisterEvent("FRIENDLIST_UPDATE")
 	self:RegisterEvent("CHAT_MSG_SYSTEM")
 
+	LibStub:GetLibrary("LibDataBroker-1.1").RegisterCallback(self, "LibDataBroker_AttributeChanged_FriendsBlock_text", "TextUpdate")
+
 	lego:SetScript("OnUpdate", OnUpdate)
 	ShowFriends()
 end
@@ -114,7 +119,12 @@ function FriendsBlock:FRIENDLIST_UPDATE()
 	-- Purge out deleted friends
 	for name,data in pairs(friends) do if data.uid ~= uid then friends[name] = nil end end
 
-	lego:SetText(total > 0 and string.format("%d/%d", online, total) or L["Emo"])
+	dataobj.text = total > 0 and string.format("%d/%d", online, total) or L["Emo"]
+end
+
+
+function FriendsBlock:TextUpdate(event, name, key, value)
+	lego:SetText(value)
 end
 
 
@@ -131,8 +141,8 @@ local function GetTipAnchor(frame)
 end
 
 
-lego:SetScript("OnLeave", function() GameTooltip:Hide() end)
-lego:SetScript("OnEnter", function(self)
+local function OnLeave() GameTooltip:Hide() end
+local function OnEnter(self)
  	GameTooltip:SetOwner(self, "ANCHOR_NONE")
 	GameTooltip:SetPoint(GetTipAnchor(self))
 	GameTooltip:ClearLines()
@@ -151,21 +161,31 @@ lego:SetScript("OnEnter", function(self)
 	elseif not online then GameTooltip:AddLine(L["No Friends Online"]) end
 
 	GameTooltip:Show()
-end)
+end
+
+
+lego:SetScript("OnEnter", OnEnter)
+lego:SetScript("OnLeave", OnLeave)
+dataobj.OnEnter = OnEnter
+dataobj.OnLeave = OnLeave
 
 
 ------------------------------------------
 --      Click to open friend panel      --
 ------------------------------------------
 
-lego:EnableMouse(true)
-lego:RegisterForClicks("anyUp")
-lego:SetScript("OnClick", function()
+local function OnClick()
 	if FriendsFrame:IsVisible() then HideUIPanel(FriendsFrame)
 	else
 		ToggleFriendsFrame(1)
 		FriendsFrame_Update()
 		GameTooltip:Hide()
 	end
-end)
+end
+
+
+lego:EnableMouse(true)
+lego:RegisterForClicks("anyUp")
+lego:SetScript("OnClick", OnClick)
+dataobj.OnClick = OnClick
 
