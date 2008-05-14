@@ -28,8 +28,9 @@ for class,color in pairs(RAID_CLASS_COLORS) do colors[class] = string.format("%0
 --      Namespace and all that shit      --
 -------------------------------------------
 
-FriendsBlock = DongleStub("Dongle-1.0"):New("FriendsBlock")
 local f = CreateFrame("frame")
+f:SetScript("OnEvent", function(self, event, ...) if self[event] then return self[event](self, event, ...) end end)
+f:RegisterEvent("ADDON_LOADED")
 
 
 local dataobj = {icon = "Interface\\Addons\\FriendsBlock\\icon", text = "50/50"}
@@ -59,20 +60,28 @@ end
 --      Init/Enable      --
 ---------------------------
 
-function FriendsBlock:Initialize()
+function f:ADDON_LOADED()
 	if FriendsBlockDB and FriendsBlockDB.profiles then FriendsBlockDB = nil end
 	FriendsBlockDB = FriendsBlockDB or {}
 
 	LibStub:GetLibrary("tekBlock"):new("FriendsBlock", FriendsBlockDB)
+
+	f:UnregisterEvent("ADDON_LOADED")
+	f.ADDON_LOADED = nil
+
+	if IsLoggedIn() then self:PLAYER_LOGIN() else self:RegisterEvent("PLAYER_LOGIN") end
 end
 
 
-function FriendsBlock:Enable()
+function f:PLAYER_LOGIN()
 	self:RegisterEvent("FRIENDLIST_UPDATE")
 	self:RegisterEvent("CHAT_MSG_SYSTEM")
 
 	f:SetScript("OnUpdate", OnUpdate)
 	ShowFriends()
+
+	self:UnregisterEvent("PLAYER_LOGIN")
+	self.PLAYER_LOGIN = nil
 end
 
 
@@ -80,12 +89,12 @@ end
 --      Event Handlers      --
 ------------------------------
 
-function FriendsBlock:CHAT_MSG_SYSTEM(event, msg)
+function f:CHAT_MSG_SYSTEM(event, msg)
 	if string.find(msg, L["has come online"]) or string.find(msg, L["has gone offline"]) then dirty = true end
 end
 
 
-function FriendsBlock:FRIENDLIST_UPDATE()
+function f:FRIENDLIST_UPDATE()
 	local online = 0
 	total = 0
 

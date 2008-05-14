@@ -5,14 +5,10 @@
 ## Author: Tekkub Stoutwrithe
 ## Version: Alpha
 
-## OptionalDeps: Dongle
-
 ## SavedVariables: FriendsBlockDB
 
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Always: delayed
-
-Dongle.lua
 
 LibStub.lua
 CallbackHandler-1.0.lua
