@@ -1,13 +1,11 @@
 ## Interface: 20400
 
-## Title: Friends Block
-## Notes: Minimalistic friends display
+## Title: picoFriends
+## Notes: Minimalistic LDB-based friends display
 ## Author: Tekkub Stoutwrithe
 ## Version: Alpha
 ## X-Website: http://www.tekkub.net/
 ## X-Email: tekkub-wow@googlegroups.com
-
-## SavedVariables: FriendsBlockDB
 
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Always: delayed
@@ -18,4 +16,4 @@ LibDataBroker-1.1\LibDataBroker-1.1.lua
 
 tekBlock\tekBlock.lua
 
-FriendsBlock.lua
+picoFriends.lua

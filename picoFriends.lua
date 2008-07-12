@@ -28,7 +28,7 @@ for class,color in pairs(RAID_CLASS_COLORS) do colors[class] = string.format("%0
 --      Namespace and all that shit      --
 -------------------------------------------
 
-local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("FriendsBlock", {icon = "Interface\\Addons\\FriendsBlock\\icon", text = "50/50"})
+local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("picoFriends", {icon = "Interface\\Addons\\picoFriends\\icon", text = "50/50"})
 local f = CreateFrame("frame")
 f:SetScript("OnEvent", function(self, event, ...) if self[event] then return self[event](self, event, ...) end end)
 
@@ -122,7 +122,7 @@ function dataobj.OnEnter(self)
 	GameTooltip:SetPoint(GetTipAnchor(self))
 	GameTooltip:ClearLines()
 
-	GameTooltip:AddLine("FriendsBlock")
+	GameTooltip:AddLine("picoFriends")
 
 	local online
 	for name,data in pairs(friends) do
