@@ -58,6 +58,8 @@ end
 ----------------------
 
 function f:PLAYER_LOGIN()
+	LibStub("tekKonfig-AboutPanel").new(nil, "picoFriends")
+
 	self:RegisterEvent("FRIENDLIST_UPDATE")
 	self:RegisterEvent("CHAT_MSG_SYSTEM")
 
