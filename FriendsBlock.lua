@@ -28,13 +28,9 @@ for class,color in pairs(RAID_CLASS_COLORS) do colors[class] = string.format("%0
 --      Namespace and all that shit      --
 -------------------------------------------
 
+local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("FriendsBlock", {icon = "Interface\\Addons\\FriendsBlock\\icon", text = "50/50"})
 local f = CreateFrame("frame")
 f:SetScript("OnEvent", function(self, event, ...) if self[event] then return self[event](self, event, ...) end end)
-f:RegisterEvent("ADDON_LOADED")
-
-
-local dataobj = {icon = "Interface\\Addons\\FriendsBlock\\icon", text = "50/50"}
-LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("FriendsBlock", dataobj)
 
 
 ----------------------------------
@@ -43,10 +39,11 @@ LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("FriendsBlock", dataobj)
 
 local MINDELAY, DELAY = 15, 300
 local elapsed, dirty = 0, false
-local function OnUpdate(self, el)
+f:Hide()
+f:SetScript("OnUpdate", function (self, el)
 	elapsed = elapsed + el
 	if (dirty and elapsed >= MINDELAY) or elapsed >= DELAY then ShowFriends() end
-end
+end)
 
 
 local orig = ShowFriends
@@ -56,28 +53,15 @@ ShowFriends = function(...)
 end
 
 
----------------------------
---      Init/Enable      --
----------------------------
-
-function f:ADDON_LOADED()
-	if FriendsBlockDB and FriendsBlockDB.profiles then FriendsBlockDB = nil end
-	FriendsBlockDB = FriendsBlockDB or {}
-
-	LibStub:GetLibrary("tekBlock"):new("FriendsBlock", FriendsBlockDB)
-
-	f:UnregisterEvent("ADDON_LOADED")
-	f.ADDON_LOADED = nil
-
-	if IsLoggedIn() then self:PLAYER_LOGIN() else self:RegisterEvent("PLAYER_LOGIN") end
-end
-
+----------------------
+--      Enable      --
+----------------------
 
 function f:PLAYER_LOGIN()
 	self:RegisterEvent("FRIENDLIST_UPDATE")
 	self:RegisterEvent("CHAT_MSG_SYSTEM")
 
-	f:SetScript("OnUpdate", OnUpdate)
+	self:Show()
 	ShowFriends()
 
 	self:UnregisterEvent("PLAYER_LOGIN")
@@ -107,12 +91,7 @@ function f:FRIENDLIST_UPDATE()
 			total = total + 1
 
 			local t = friends[name]
-			t.uid = uid
-			t.level = level
-			t.class = class
-			t.area  = area
-			t.status = status
-			t.connected = connected
+			t.uid, t.level, t.class, t.area, t.status, t.connected = uid, level, class, area, status, connected
 			if connected then online = online + 1 end
 		end
 	end
@@ -172,3 +151,10 @@ function dataobj.OnClick()
 		GameTooltip:Hide()
 	end
 end
+
+
+-----------------------------------
+--      Make rocket go now!      --
+-----------------------------------
+
+if IsLoggedIn() then f:PLAYER_LOGIN() else f:RegisterEvent("PLAYER_LOGIN") end
