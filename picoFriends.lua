@@ -86,14 +86,14 @@ function f:FRIENDLIST_UPDATE()
 
 	local uid = GetTime()
 	for i = 1,GetNumFriends() do
-		local name, level, class, area, connected, status = GetFriendInfo(i)
+		local name, level, class, area, connected, status, note = GetFriendInfo(i)
 
 		if name then
 			if not friends[name] then friends[name] = {} end
 			total = total + 1
 
 			local t = friends[name]
-			t.uid, t.level, t.class, t.area, t.status, t.connected = uid, level, class, area, status, connected
+			t.uid, t.level, t.class, t.area, t.status, t.connected, t.note = uid, level, class, area, status, connected, note
 			if connected then online = online + 1 end
 		end
 	end
@@ -130,7 +130,8 @@ function dataobj.OnEnter(self)
 	for name,data in pairs(friends) do
 		if data.connected then
 			online = true
-			GameTooltip:AddDoubleLine(string.format("|cff%s%s:%s|r %s", colors[data.class:upper()] or "000000", data.level or "", name, data.status), "|cffffffff"..(data.area or ""))
+			local note = data.note and "|cff00ff00("..data.note..")" or ""
+			GameTooltip:AddDoubleLine(string.format("|cff%s%s:%s|r %s%s", colors[data.class:gsub(" ", ""):upper()] or "ffffff", data.level or "", name, data.status, note), "|cffffffff"..(data.area or ""))
 		end
 	end
 
