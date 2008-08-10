@@ -1,3 +1,6 @@
+2.4.3.2-Beta
+    Add support for the note field
+
 2.4.2.1-Beta
     Implement LDB-1.1
     De-dongle
