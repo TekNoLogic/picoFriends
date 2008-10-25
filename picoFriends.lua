@@ -118,27 +118,32 @@ local function GetTipAnchor(frame)
 end
 
 
-function dataobj.OnLeave() GameTooltip:Hide() end
+local tip = LibStub("tektip-1.0").new(4, "LEFT", "LEFT", "LEFT", "RIGHT")
+function dataobj.OnLeave() tip:Hide() end
 function dataobj.OnEnter(self)
- 	GameTooltip:SetOwner(self, "ANCHOR_NONE")
-	GameTooltip:SetPoint(GetTipAnchor(self))
-	GameTooltip:ClearLines()
+	local mylevel = UnitLevel("player")
 
-	GameTooltip:AddLine("picoFriends")
+	tip:AnchorTo(self)
+
+	tip:AddLine("picoFriends")
+	tip:AddLine(" ")
 
 	local online
 	for name,data in pairs(friends) do
 		if data.connected then
 			online = true
-			local note = data.note and "|cff00ff00("..data.note..")" or ""
-			GameTooltip:AddDoubleLine(string.format("|cff%s%s:%s|r %s%s", colors[data.class:gsub(" ", ""):upper()] or "ffffff", data.level or "", name, data.status, note), "|cffffffff"..(data.area or ""))
+			local levelr, levelg, levelb = 0, 1, 0
+			if data.level < (mylevel - 5) then levelr, levelg, levelb = .6, .6, .6
+			elseif data.level > (mylevel + 5) then levelr, levelg, levelb = .1, 0, 0 end
+			tip:AddMultiLine(data.level, string.format("|cff%s%s|r%s%s", colors[data.class:gsub(" ", ""):upper()] or "ffffff", name, data.status == "" and "" or " ", data.status), data.note, data.area,
+				levelr,levelg,levelb, nil,nil,nil, 1,0,1, 1,1,1)
 		end
 	end
 
-	if total == 0 then GameTooltip:AddLine(L["You have no friends!"])
-	elseif not online then GameTooltip:AddLine(L["No Friends Online"]) end
+	if total == 0 then tip:AddLine(L["You have no friends!"])
+	elseif not online then tip:AddLine(L["No Friends Online"]) end
 
-	GameTooltip:Show()
+	tip:Show()
 end
 
 
