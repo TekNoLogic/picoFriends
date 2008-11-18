@@ -1,5 +1,5 @@
 
-local lib, oldminor = LibStub:NewLibrary("tektip-1.0", 2)
+local lib, oldminor = LibStub:NewLibrary("tektip-1.0", 3)
 if not lib then return end
 oldminor = oldminor or 0
 
@@ -93,19 +93,24 @@ if oldminor < 1 then
 			end
 		end
 	end
+end
 
 
-	function lib:AddLine(text, r, g, b)
+if oldminor < 3 then
+	function lib:AddLine(text, r, g, b, wrap)
 		self.numlines = self.numlines + 1
 		local fs = self.cols[1][self.numlines]
 		fs:SetTextColor(r or NORMAL_FONT_COLOR.r, g or NORMAL_FONT_COLOR.g, b or NORMAL_FONT_COLOR.b)
 		fs:SetText(text)
 		fs:SetPoint("RIGHT", self.cols[#self.cols].header, "RIGHT")
+		fs.wrapped = wrap
 		for i=2,#self.cols do self.cols[i][self.numlines]:SetText(nil) end
 		fs:Show()
 	end
+end
 
 
+if oldminor < 1 then
 	function lib:AddMultiLine(...)
 		self.numlines = self.numlines + 1
 		local numdots = select("#", ...)
@@ -122,27 +127,37 @@ if oldminor < 1 then
 	end
 end
 
-if oldminor < 2 then
+
+if oldminor < 3 then
 	function lib:OnShow()
-		local h, w, totalw = 0, 0, 0
+		local w, totalw = 0, 0
 		for i=1,#self.cols do
 			local colw = 1
 			for j=1,self.numlines do
 				local fs = self.cols[i][j]
-				if i == 1 then h = h + fs:GetHeight() end
 				if i ~= 1 or self.cols[2][j]:GetText() then colw = math.max(colw, fs:GetStringWidth())
-				else totalw = math.max(totalw, fs:GetStringWidth()) end
+				elseif not fs.wrapped then totalw = math.max(totalw, fs:GetStringWidth()) end
 			end
 			self.cols[i].header:SetWidth(colw)
 			w = w + colw
 		end
-		self:SetHeight(h + TOOLTIP_PADDING*2 + (self.numlines-1)*VGAP)
+
 		if w < (totalw - (#self.cols-1)*HGAP) then
-			self:SetWidth(totalw + TOOLTIP_PADDING*2)
 			local extra = totalw - w - (#self.cols-1)*HGAP
 			for i=1,#self.cols do self.cols[i].header:SetWidth(extra/#self.cols + self.cols[i].header:GetWidth()) end
+			w = totalw
 		else
-			self:SetWidth(w + (#self.cols-1)*HGAP + TOOLTIP_PADDING*2)
+			w = w + (#self.cols-1)*HGAP
 		end
+		self:SetWidth(w + TOOLTIP_PADDING*2)
+
+		local h = 0
+		for i=1,self.numlines do
+			local fs = self.cols[1][i]
+			fs:SetWidth(fs.wrapped and w or 0)
+			h = h + fs:GetHeight()
+		end
+
+		self:SetHeight(h + TOOLTIP_PADDING*2 + (self.numlines-1)*VGAP)
 	end
 end
