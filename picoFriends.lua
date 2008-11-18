@@ -125,7 +125,7 @@ function dataobj.OnEnter(self)
 			online = true
 			local levelr, levelg, levelb = 0, 1, 0
 			if data.level < (mylevel - 5) then levelr, levelg, levelb = .6, .6, .6
-			elseif data.level > (mylevel + 5) then levelr, levelg, levelb = .1, 0, 0 end
+			elseif data.level > (mylevel + 5) then levelr, levelg, levelb = 1, 0, 0 end
 			tip:AddMultiLine(data.level, string.format("|cff%s%s|r%s%s", colors[data.class:gsub(" ", ""):upper()] or "ffffff", name, data.status == "" and "" or " ", data.status), data.note, data.area,
 				levelr,levelg,levelb, nil,nil,nil, 1,0,1, 1,1,1)
 		end
