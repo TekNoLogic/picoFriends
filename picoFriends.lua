@@ -125,6 +125,10 @@ local function AddDetailedLine(mylevel, level, class, name, status, note, area)
 		levelr,levelg,levelb, nil,nil,nil, 1,.5,1, 1,1,1)
 end
 
+local client_icons = {
+	[BNET_CLIENT_WOW] = "Interface\\FriendsFrame\\Battlenet-WoWicon",
+	[BNET_CLIENT_SC2] = "Interface\\FriendsFrame\\Battlenet-Sc2icon",
+}
 function dataobj.OnLeave() tip:Hide() end
 function dataobj.OnEnter(self)
 	local mylevel = UnitLevel("player")
@@ -138,11 +142,11 @@ function dataobj.OnEnter(self)
 	local wow_total, wow_online = GetNumFriends()
 
 	for i=1,bnet_online do
-		-- local presenceID, givenName, surname, toonName, toonID, client, isOnline, lastOnline, isAFK, isDND, broadcastText, noteText, isFriend, broadcastTime = BNGetFriendInfo(i)
 		local presenceID, givenName, surname, toonName, toonID, client, online, lastOnline, isAFK, isDND, broadcastText, note, isFriend, broadcastTime = BNGetFriendInfo(i)
 		note = note ~= "" and note
 		if online and toonID then
 			local hasFocus, toonName, client, realmName, faction, race, class, guild, area, level, gameText = BNGetToonInfo(toonID)
+			gameText = gameText.. (client_icons[client] and (" |T"..client_icons[client]..":0:0:0:0:64:64:4:60:4:60|t") or (" ["..client.."]"))
 			AddDetailedLine(mylevel, tonumber(level), class or "", toonName, status or "", note or givenName, gameText)
 		elseif online then
 			tip:AddMultiLine(givenName, client, "", nil,nil,nil , nil,nil,nil, 1,0,1, 1,1,1)
