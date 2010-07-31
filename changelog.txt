@@ -1,3 +1,6 @@
+3.3.0.5-Beta
+    Add RealID support
+
 3.0.3.4-Release
     Retarded server keeps padding my notes with spaces
     LDB type
