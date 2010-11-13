@@ -151,7 +151,7 @@ function dataobj.OnEnter(self)
 		note = note ~= "" and note
 		if online and toonID then
 			local hasFocus, toonName, client, realmName, faction, race, class, guild, area, level, gameText = BNGetToonInfo(toonID)
-			gameText = gameText.. factiontags[faction].. (client_icons[client] and (" |T"..client_icons[client]..":0:0:0:0:64:64:4:60:4:60|t") or (" ["..client.."]"))
+			gameText = gameText.. (factiontags[faction] or "").. (client_icons[client] and (" |T"..client_icons[client]..":0:0:0:0:64:64:4:60:4:60|t") or (" ["..client.."]"))
 			AddDetailedLine(mylevel, tonumber(level), class or "", toonName, status or "", note or givenName, gameText)
 		elseif online then
 			tip:AddMultiLine(givenName, client, "", nil,nil,nil , nil,nil,nil, 1,0,1, 1,1,1)
