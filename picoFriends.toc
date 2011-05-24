@@ -7,9 +7,11 @@
 ## X-Website: http://www.tekkub.net/
 ## X-Email: tekkub-wow@googlegroups.com
 ## X-Category: Misc
+## X-Icon: Interface\Icons\Achievement_WorldEvent_Brewmaster
 
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Always: delayed
+## X-LoadOn-InterfaceOptions: picoFriends
 
 LibStub.lua
 CallbackHandler-1.0.lua
