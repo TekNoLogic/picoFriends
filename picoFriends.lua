@@ -150,7 +150,7 @@ function dataobj.OnEnter(self)
 		local presenceID, givenName, surname, toonName, toonID, client, online, lastOnline, isAFK, isDND, broadcastText, note, isFriend, broadcastTime = BNGetFriendInfo(i)
 		note = note ~= "" and note
 		if online and toonID then
-			local hasFocus, toonName, client, realmName, faction, race, class, guild, area, level, gameText = BNGetToonInfo(toonID)
+			local hasFocus, toonName, client, realmName, realmID, faction, race, class, guild, area, level, gameText = BNGetToonInfo(toonID)
 			gameText = gameText.. (factiontags[faction] or "").. (client_icons[client] and (" |T"..client_icons[client]..":0:0:0:0:64:64:4:60:4:60|t") or (" ["..client.."]"))
 			AddDetailedLine(mylevel, tonumber(level), class or "", toonName, status or "", note or givenName, gameText)
 		elseif online then
