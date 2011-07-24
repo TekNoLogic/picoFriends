@@ -1,4 +1,4 @@
-## Interface: 40000
+## Interface: 40200
 
 ## Title: picoFriends
 ## Notes: Minimalistic LDB-based friends display
