@@ -4,9 +4,8 @@
 ----------------------------
 
 local L = {
-	offline = "(.+) has gone offline.";
-	online = "|Hplayer:%s|h[%s]|h has come online.";	["has come online"] = "has come online",
-	["has gone offline"] = "has gone offline",
+	offline = "has gone offline",
+	online = "has come online",
 
 	["Level"] = "Level",
 	["Name"] = "Name",
@@ -21,16 +20,25 @@ local L = {
 ------------------------------
 
 local friends, colors, total = {}, {}, 0
-for class,color in pairs(RAID_CLASS_COLORS) do colors[class] = string.format("%02x%02x%02x", color.r*255, color.g*255, color.b*255) end
+for class,c in pairs(RAID_CLASS_COLORS) do
+	colors[class] = string.format("%02x%02x%02x", c.r*255, c.g*255, c.b*255)
+end
 
 
 -------------------------------------------
 --      Namespace and all that shit      --
 -------------------------------------------
 
-local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("picoFriends", {type = "data source", icon = "Interface\\Addons\\picoFriends\\icon", text = "50/50"})
+local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject(
+	"picoFriends", {
+		type = "data source",
+		icon = "Interface\\Addons\\picoFriends\\icon",
+		text = "50/50",
+})
 local f = CreateFrame("frame")
-f:SetScript("OnEvent", function(self, event, ...) if self[event] then return self[event](self, event, ...) end end)
+f:SetScript("OnEvent", function(self, event, ...)
+	if self[event] then return self[event](self, event, ...) end
+end)
 
 
 ----------------------------------
@@ -76,7 +84,9 @@ end
 ------------------------------
 
 function f:CHAT_MSG_SYSTEM(event, msg)
-	if string.find(msg, L["has come online"]) or string.find(msg, L["has gone offline"]) then dirty = true end
+	if string.find(msg, L.online) or string.find(msg, L.offline) then
+		dirty = true
+	end
 end
 
 
@@ -93,17 +103,23 @@ function f:FRIENDLIST_UPDATE()
 			total = total + 1
 
 			local t = friends[name]
-			t.uid, t.level, t.class, t.area, t.status, t.connected, t.note = uid, level, class, area, status, connected, note
+			t.uid, t.level, t.class, t.area, t.status, t.connected, t.note
+				= uid, level, class, area, status, connected, note
+
 			if connected then online = online + 1 end
 		end
 	end
 
 	-- Purge out deleted friends
-	for name,data in pairs(friends) do if data.uid ~= uid then friends[name] = nil end end
+	for name,data in pairs(friends) do
+		if data.uid ~= uid then friends[name] = nil end
+	end
 
 	local bnet_total, bnet_online = BNGetNumFriends()
 	local wow_total, wow_online = GetNumFriends()
-	dataobj.text = (bnet_total + wow_total) > 0 and string.format("%d/%d", bnet_online + wow_online, bnet_total + wow_total) or L["Emo"]
+	dataobj.text = (bnet_total + wow_total) > 0
+		and string.format("%d/%d", bnet_online + wow_online, bnet_total + wow_total)
+		or L["Emo"]
 end
 
 
@@ -121,8 +137,21 @@ local function AddDetailedLine(mylevel, level, class, name, status, note, area)
 	if not level then levelr, levelg, levelb = 1, 1, 1
 	elseif level < (mylevel - 5) then levelr, levelg, levelb = .6, .6, .6
 	elseif level > (mylevel + 5) then levelr, levelg, levelb = 1, .5, .5 end
-	tip:AddMultiLine(level or "", string.format("|cff%s%s|r%s%s", colors[class:gsub(" ", ""):upper()] or "ffffff", name, status == "" and "" or " ", status), string.trim(note or ""), area,
-		levelr,levelg,levelb, nil,nil,nil, 1,.5,1, 1,1,1)
+	tip:AddMultiLine(
+		level or "",
+		string.format(
+			"|cff%s%s|r%s%s",
+			colors[class:gsub(" ", ""):upper()] or "ffffff",
+			name,
+			status == "" and "" or " ",
+			status
+		),
+		string.trim(note or ""),
+		area,
+		levelr,levelg,levelb,
+		nil,nil,nil,
+		1,.5,1,
+		1,1,1)
 end
 
 local myfac = UnitFactionGroup("player")
@@ -148,21 +177,39 @@ function dataobj.OnEnter(self)
 	local wow_total, wow_online = GetNumFriends()
 
 	for i=1,bnet_online do
-		local presenceID, presenceName, battleTag, isBattleTagPresence, toonName, toonID, client, online, lastOnline, isAFK, isDND, broadcastText, note, isFriend, broadcastTime = BNGetFriendInfo(i)
+		local presenceID, presenceName, battleTag, isBattleTagPresence, toonName,
+		      toonID, client, online, lastOnline, isAFK, isDND, broadcastText, note,
+		      isFriend, broadcastTime = BNGetFriendInfo(i)
 		note = note ~= "" and note
+
 		if online and toonID then
-			local hasFocus, toonName, client, realmName, realmID, faction, race, class, guild, area, level, gameText = BNGetToonInfo(toonID)
-			gameText = gameText.. (factiontags[faction] or "").. (client_icons[client] and (" |T"..client_icons[client]..":0:0:0:0:64:64:4:60:4:60|t") or (" ["..client.."]"))
-			AddDetailedLine(mylevel, tonumber(level), class or "", toonName, status or "", note or presenceName, gameText)
+			local hasFocus, toonName, client, realmName, realmID, faction, race,
+			      class, guild, area, level, gameText = BNGetToonInfo(toonID)
+			gameText = gameText..
+			           (factiontags[faction] or "")..
+			           (client_icons[client] and
+			           	 (" |T"..client_icons[client]..":0:0:0:0:64:64:4:60:4:60|t")
+			           	 or (" ["..client.."]"))
+
+			AddDetailedLine(mylevel, tonumber(level), class or "", toonName,
+				              status or "", note or presenceName, gameText)
 		elseif online then
-			tip:AddMultiLine(presenceName, client, "", nil,nil,nil , nil,nil,nil, 1,0,1, 1,1,1)
+			tip:AddMultiLine(presenceName, client, "", nil,nil,nil , nil,nil,nil,
+				               1,0,1, 1,1,1)
 		end
 	end
 
-	for name,data in pairs(friends) do if data.connected then AddDetailedLine(mylevel, data.level, data.class, name, data.status, data.note, data.area) end end
+	for name,data in pairs(friends) do
+		if data.connected then
+			AddDetailedLine(mylevel, data.level, data.class, name, data.status,
+				              data.note, data.area)
+		end
+	end
 
 	if (bnet_total + wow_total) == 0 then tip:AddLine(L["You have no friends!"])
-	elseif (bnet_online + wow_online) == 0 then tip:AddLine(L["No Friends Online"]) end
+	elseif (bnet_online + wow_online) == 0 then
+		tip:AddLine(L["No Friends Online"])
+	end
 
 	tip:Show()
 end
