@@ -1,3 +1,6 @@
+5.0.1.9-Beta
+    Add support for battletags
+
 4.2.0.8-Beta
     BNGetToonInfo returns changed
 
