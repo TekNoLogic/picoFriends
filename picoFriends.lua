@@ -156,8 +156,8 @@ end
 
 local myfac = UnitFactionGroup("player")
 local factiontags = {
-	[0] = myfac == "Alliance" and " |cffc41e3aH|r" or "",
-	[1] = myfac ~= "Alliance" and " |cff0070ddA|r" or "",
+	Horde    = myfac == "Alliance" and " |cffc41e3aH|r" or "",
+	Alliance = myfac ~= "Alliance" and " |cff0070ddA|r" or "",
 }
 local client_icons = {
 	[BNET_CLIENT_WOW] = "Interface\\FriendsFrame\\Battlenet-WoWicon",
