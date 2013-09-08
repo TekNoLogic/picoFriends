@@ -38,29 +38,22 @@ local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject(
 		icon = "Interface\\Addons\\picoFriends\\icon",
 		text = "50/50",
 })
-local f = CreateFrame("frame")
-f:SetScript("OnEvent", function(self, event, ...)
-	if self[event] then return self[event](self, event, ...) end
-end)
 
 
 ----------------------
 --      Enable      --
 ----------------------
 
-function f:PLAYER_LOGIN()
+function ns.OnLogin()
 	LibStub("tekKonfig-AboutPanel").new(nil, "picoFriends")
 
-	self:RegisterEvent("FRIENDLIST_UPDATE")
-	self:RegisterEvent("CHAT_MSG_SYSTEM")
+	ns.RegisterEvent("FRIENDLIST_UPDATE")
+	ns.RegisterEvent("CHAT_MSG_SYSTEM")
 
 	-- Set up the periodice refresh every 5 minutes
 	-- No, I'm not passing ShowFriends directly, in case of hookers
 	ns.StartRepeatingTimer(300, function() ShowFriends() end)
 	ShowFriends()
-
-	self:UnregisterEvent("PLAYER_LOGIN")
-	self.PLAYER_LOGIN = nil
 end
 
 
@@ -68,14 +61,14 @@ end
 --      Event Handlers      --
 ------------------------------
 
-function f:CHAT_MSG_SYSTEM(event, msg)
+function ns.CHAT_MSG_SYSTEM(event, msg)
 	if string.find(msg, L.online) or string.find(msg, L.offline) then
 		ShowFriends()
 	end
 end
 
 
-function f:FRIENDLIST_UPDATE()
+function ns.FRIENDLIST_UPDATE()
 	local online = 0
 	total = 0
 
@@ -212,10 +205,3 @@ function dataobj.OnClick()
 		GameTooltip:Hide()
 	end
 end
-
-
------------------------------------
---      Make rocket go now!      --
------------------------------------
-
-if IsLoggedIn() then f:PLAYER_LOGIN() else f:RegisterEvent("PLAYER_LOGIN") end

@@ -13,6 +13,7 @@
 ## X-LoadOn-Always: delayed
 ## X-LoadOn-InterfaceOptions: picoFriends
 
+externals\events.lua
 externals\timer.lua
 
 LibStub.lua
