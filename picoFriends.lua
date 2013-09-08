@@ -1,4 +1,7 @@
 
+local myname, ns = ...
+
+
 ----------------------------
 --      Localization      --
 ----------------------------
@@ -41,22 +44,6 @@ f:SetScript("OnEvent", function(self, event, ...)
 end)
 
 
-----------------------------------
---      Server query timer      --
-----------------------------------
-
-local MINDELAY, DELAY = 15, 300
-local elapsed = 0
-f:Hide()
-f:SetScript("OnUpdate", function (self, el)
-	elapsed = elapsed + el
-	if elapsed >= DELAY then
-		elapsed = 0
-		ShowFriends()
-	end
-end)
-
-
 ----------------------
 --      Enable      --
 ----------------------
@@ -67,7 +54,9 @@ function f:PLAYER_LOGIN()
 	self:RegisterEvent("FRIENDLIST_UPDATE")
 	self:RegisterEvent("CHAT_MSG_SYSTEM")
 
-	self:Show()
+	-- Set up the periodice refresh every 5 minutes
+	-- No, I'm not passing ShowFriends directly, in case of hookers
+	ns.StartRepeatingTimer(300, function() ShowFriends() end)
 	ShowFriends()
 
 	self:UnregisterEvent("PLAYER_LOGIN")
