@@ -50,7 +50,7 @@ function ns.OnLogin()
 	ns.RegisterEvent("FRIENDLIST_UPDATE")
 	ns.RegisterEvent("CHAT_MSG_SYSTEM")
 
-	-- Set up the periodice refresh every 5 minutes
+	-- Set up the periodic refresh every 5 minutes
 	-- No, I'm not passing ShowFriends directly, in case of hookers
 	ns.StartRepeatingTimer(300, function() ShowFriends() end)
 	ShowFriends()
