@@ -22,7 +22,7 @@ local L = {
 --      Are you local?      --
 ------------------------------
 
-local friends, colors, total = {}, {}, 0
+local friends, colors = {}, {}
 for class,c in pairs(RAID_CLASS_COLORS) do
 	colors[class] = string.format("%02x%02x%02x", c.r*255, c.g*255, c.b*255)
 end
@@ -72,22 +72,16 @@ end
 
 
 function ns.FRIENDLIST_UPDATE()
-	local online = 0
-	total = 0
-
 	local uid = GetTime()
 	for i = 1,GetNumFriends() do
 		local name, level, class, area, connected, status, note = GetFriendInfo(i)
 
 		if name then
 			if not friends[name] then friends[name] = {} end
-			total = total + 1
 
 			local t = friends[name]
 			t.uid, t.level, t.class, t.area, t.status, t.connected, t.note
 				= uid, level, class, area, status, connected, note
-
-			if connected then online = online + 1 end
 		end
 	end
 
