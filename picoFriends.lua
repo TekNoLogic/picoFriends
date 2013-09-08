@@ -53,6 +53,9 @@ function ns.OnLogin()
 	-- Set up the periodic refresh every 5 minutes
 	-- No, I'm not passing ShowFriends directly, in case of hookers
 	ns.StartRepeatingTimer(300, function() ShowFriends() end)
+
+	-- Initialize our display and refresh data
+	ns.RefreshSummary()
 	ShowFriends()
 end
 
@@ -93,6 +96,11 @@ function ns.FRIENDLIST_UPDATE()
 		if data.uid ~= uid then friends[name] = nil end
 	end
 
+	ns.RefreshSummary()
+end
+
+
+function ns.RefreshSummary()
 	local bnet_total, bnet_online = BNGetNumFriends()
 	local wow_total, wow_online = GetNumFriends()
 	dataobj.text = (bnet_total + wow_total) > 0
