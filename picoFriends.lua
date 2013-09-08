@@ -46,19 +46,15 @@ end)
 ----------------------------------
 
 local MINDELAY, DELAY = 15, 300
-local elapsed, dirty = 0, false
+local elapsed = 0
 f:Hide()
 f:SetScript("OnUpdate", function (self, el)
 	elapsed = elapsed + el
-	if (dirty and elapsed >= MINDELAY) or elapsed >= DELAY then ShowFriends() end
+	if elapsed >= DELAY then
+		elapsed = 0
+		ShowFriends()
+	end
 end)
-
-
-local orig = ShowFriends
-ShowFriends = function(...)
-	elapsed, dirty = 0, false
-	return orig(...)
-end
 
 
 ----------------------
@@ -85,7 +81,7 @@ end
 
 function f:CHAT_MSG_SYSTEM(event, msg)
 	if string.find(msg, L.online) or string.find(msg, L.offline) then
-		dirty = true
+		ShowFriends()
 	end
 end
 
