@@ -36,7 +36,7 @@ local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject(
 	"picoFriends", {
 		type = "data source",
 		icon = "Interface\\Addons\\picoFriends\\icon",
-		text = "50/50",
+		text = "??/??",
 })
 
 
