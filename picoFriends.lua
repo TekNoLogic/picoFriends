@@ -49,6 +49,10 @@ function ns.OnLogin()
 
 	ns.RegisterEvent("FRIENDLIST_UPDATE")
 	ns.RegisterEvent("CHAT_MSG_SYSTEM")
+	ns.RegisterEvent('BN_FRIEND_ACCOUNT_ONLINE', ns.FRIENDLIST_UPDATE)
+	ns.RegisterEvent('BN_FRIEND_ACCOUNT_OFFLINE', ns.FRIENDLIST_UPDATE)
+	ns.RegisterEvent('BN_FRIEND_LIST_SIZE_CHANGED', ns.FRIENDLIST_UPDATE)
+	ns.RegisterEvent('BN_FRIEND_INFO_CHANGED', ns.FRIENDLIST_UPDATE)
 
 	-- Set up the periodic refresh every 5 minutes
 	-- No, I'm not passing ShowFriends directly, in case of hookers
