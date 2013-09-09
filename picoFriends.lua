@@ -55,7 +55,7 @@ function ns.OnLogin()
 	ns.StartRepeatingTimer(300, function() ShowFriends() end)
 
 	-- Initialize our display and refresh data
-	ns.RefreshSummary()
+	ns.FRIENDLIST_UPDATE()
 	ShowFriends()
 end
 
@@ -72,29 +72,6 @@ end
 
 
 function ns.FRIENDLIST_UPDATE()
-	local uid = GetTime()
-	for i = 1,GetNumFriends() do
-		local name, level, class, area, connected, status, note = GetFriendInfo(i)
-
-		if name then
-			if not friends[name] then friends[name] = {} end
-
-			local t = friends[name]
-			t.uid, t.level, t.class, t.area, t.status, t.connected, t.note
-				= uid, level, class, area, status, connected, note
-		end
-	end
-
-	-- Purge out deleted friends
-	for name,data in pairs(friends) do
-		if data.uid ~= uid then friends[name] = nil end
-	end
-
-	ns.RefreshSummary()
-end
-
-
-function ns.RefreshSummary()
 	local bnet_total, bnet_online = BNGetNumFriends()
 	local wow_total, wow_online = GetNumFriends()
 	dataobj.text = (bnet_total + wow_total) > 0
@@ -179,10 +156,10 @@ function dataobj.OnEnter(self)
 		end
 	end
 
-	for name,data in pairs(friends) do
-		if data.connected then
-			AddDetailedLine(mylevel, data.level, data.class, name, data.status,
-				              data.note, data.area)
+	for i = 1,GetNumFriends() do
+		local name, level, class, area, connected, status, note = GetFriendInfo(i)
+		if connected then
+			AddDetailedLine(mylevel, level, class, name, status, note, area)
 		end
 	end
 
