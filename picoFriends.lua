@@ -24,7 +24,7 @@ local L = {
 
 local friends, colors = {}, {}
 for class,c in pairs(RAID_CLASS_COLORS) do
-	colors[class] = string.format("%02x%02x%02x", c.r*255, c.g*255, c.b*255)
+	colors[class] = c.colorStr
 end
 
 
@@ -120,8 +120,8 @@ local function AddDetailedLine(mylevel, level, class, name, status, note, area)
 	tip:AddMultiLine(
 		level or "",
 		string.format(
-			"|cff%s%s|r%s%s",
-			colors[class:gsub(" ", ""):upper()] or "ffffff",
+			"|c%s%s|r%s%s",
+			colors[class:gsub(" ", ""):upper()] or "ffffffff",
 			name,
 			status == "" and "" or " ",
 			status
