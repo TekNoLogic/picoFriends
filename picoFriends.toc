@@ -20,7 +20,6 @@ externals\ui-about.lua
 LibStub.lua
 CallbackHandler-1.0.lua
 LibDataBroker-1.1\LibDataBroker-1.1.lua
-tekKonfigAboutPanel.lua
 tektip.lua
 
 picoFriends.lua
