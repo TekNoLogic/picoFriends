@@ -22,7 +22,7 @@ local L = {
 --      Are you local?      --
 ------------------------------
 
-local friends, colors = {}, {}
+local colors = {}
 for class,c in pairs(RAID_CLASS_COLORS) do
 	colors[class] = c.colorStr
 end
