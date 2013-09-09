@@ -45,8 +45,6 @@ local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject(
 ----------------------
 
 function ns.OnLogin()
-	LibStub("tekKonfig-AboutPanel").new(nil, "picoFriends")
-
 	ns.RegisterEvent("FRIENDLIST_UPDATE")
 	ns.RegisterEvent("CHAT_MSG_SYSTEM")
 	ns.RegisterEvent('BN_FRIEND_ACCOUNT_ONLINE', ns.FRIENDLIST_UPDATE)

@@ -15,6 +15,7 @@
 
 externals\events.lua
 externals\timer.lua
+externals\ui-about.lua
 
 LibStub.lua
 CallbackHandler-1.0.lua
