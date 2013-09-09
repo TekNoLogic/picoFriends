@@ -35,7 +35,6 @@ local function AddDetailedLine(mylevel, level, class, name, status, note, area)
 		1,1,1)
 end
 
-local myfac = UnitFactionGroup("player")
 local factiontags = {
 	Horde    = " |TInterface\\TargetingFrame\\UI-PVP-Horde:0:0:0:0:64:64:0:38:0:38|t",
 	Alliance = " |TInterface\\TargetingFrame\\UI-PVP-Alliance:0:0:0:0:64:64:0:38:0:38|t",
