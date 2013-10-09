@@ -40,9 +40,10 @@ local factiontags = {
 	Alliance = " |TInterface\\TargetingFrame\\UI-PVP-Alliance:0:0:0:0:64:64:0:38:0:38|t",
 }
 local client_icons = {
-	[BNET_CLIENT_WOW] = "Interface\\FriendsFrame\\Battlenet-WoWicon",
-	[BNET_CLIENT_SC2] = "Interface\\FriendsFrame\\Battlenet-Sc2icon",
-	[BNET_CLIENT_D3]  = "Interface\\FriendsFrame\\Battlenet-D3icon",
+	[BNET_CLIENT_WOW]  = "Interface\\FriendsFrame\\Battlenet-WoWicon",
+	[BNET_CLIENT_SC2]  = "Interface\\FriendsFrame\\Battlenet-Sc2icon",
+	[BNET_CLIENT_D3]   = "Interface\\FriendsFrame\\Battlenet-D3icon",
+	[BNET_CLIENT_WTCG] = "Interface\\FriendsFrame\\Battlenet-WTCGicon",
 }
 function ns.dataobj.OnLeave() tip:Hide() end
 function ns.dataobj.OnEnter(self)
