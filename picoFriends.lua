@@ -16,7 +16,7 @@ local L = {
 	["No Friends Online"] = "No Friends Online",
 	["You have no friends!"] = "You have no friends!",
 }
-
+ns.L = L
 
 -------------------------------------------
 --      Namespace and all that shit      --
