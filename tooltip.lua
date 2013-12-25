@@ -88,9 +88,9 @@ function ns.dataobj.OnEnter(self)
 		end
 	end
 
-	if (bnet_total + wow_total) == 0 then tip:AddLine(L["You have no friends!"])
+	if (bnet_total + wow_total) == 0 then tip:AddLine(ns.L["You have no friends!"])
 	elseif (bnet_online + wow_online) == 0 then
-		tip:AddLine(L["No Friends Online"])
+		tip:AddLine(ns.L["No Friends Online"])
 	end
 
 	tip:Show()

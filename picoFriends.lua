@@ -6,7 +6,7 @@ local myname, ns = ...
 --      Localization      --
 ----------------------------
 
-local L = {
+ns.L = {
 	offline = "has gone offline",
 	online = "has come online",
 
@@ -16,7 +16,7 @@ local L = {
 	["No Friends Online"] = "No Friends Online",
 	["You have no friends!"] = "You have no friends!",
 }
-ns.L = L
+
 
 -------------------------------------------
 --      Namespace and all that shit      --
@@ -68,5 +68,5 @@ function ns.FRIENDLIST_UPDATE()
 	local wow_total, wow_online = GetNumFriends()
 	ns.dataobj.text = (bnet_total + wow_total) > 0
 		and string.format("%d/%d", bnet_online + wow_online, bnet_total + wow_total)
-		or L["Emo"]
+		or ns.L["Emo"]
 end
