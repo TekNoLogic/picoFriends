@@ -57,7 +57,7 @@ end
 ------------------------------
 
 function ns.CHAT_MSG_SYSTEM(event, msg)
-	if string.find(msg, L.online) or string.find(msg, L.offline) then
+	if string.find(msg, ns.L.online) or string.find(msg, ns.L.offline) then
 		ShowFriends()
 	end
 end
