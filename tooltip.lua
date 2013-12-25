@@ -1,6 +1,7 @@
 
 local myname, ns = ...
 
+local L = ns.L
 
 local colors = {}
 for class,c in pairs(RAID_CLASS_COLORS) do
