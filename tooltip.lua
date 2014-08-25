@@ -40,12 +40,6 @@ local factiontags = {
 	Horde    = " |TInterface\\TargetingFrame\\UI-PVP-Horde:0:0:0:0:64:64:0:38:0:38|t",
 	Alliance = " |TInterface\\TargetingFrame\\UI-PVP-Alliance:0:0:0:0:64:64:0:38:0:38|t",
 }
-local client_icons = {
-	[BNET_CLIENT_WOW]  = "Interface\\FriendsFrame\\Battlenet-WoWicon",
-	[BNET_CLIENT_SC2]  = "Interface\\FriendsFrame\\Battlenet-Sc2icon",
-	[BNET_CLIENT_D3]   = "Interface\\FriendsFrame\\Battlenet-D3icon",
-	[BNET_CLIENT_WTCG] = "Interface\\FriendsFrame\\Battlenet-WTCGicon",
-}
 function ns.dataobj.OnLeave() tip:Hide() end
 function ns.dataobj.OnEnter(self)
 	local mylevel = UnitLevel("player")
@@ -67,11 +61,10 @@ function ns.dataobj.OnEnter(self)
 		if online and toonID then
 			local hasFocus, toonName, client, realmName, realmID, faction, race,
 			      class, guild, area, level, gameText = BNGetToonInfo(toonID)
+			local texture = BNet_GetClientTexture(client)
 			gameText = gameText..
 			           (factiontags[faction] or "")..
-			           (client_icons[client] and
-			           	 (" |T"..client_icons[client]..":0:0:0:0:64:64:4:60:4:60|t")
-			           	 or (" ["..client.."]"))
+			           (" |T"..texture..":0:0:0:0:64:64:4:60:4:60|t")
 
 			AddDetailedLine(mylevel, tonumber(level), class or "", toonName,
 				              status or "", note or presenceName, gameText)
