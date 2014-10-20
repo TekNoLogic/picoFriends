@@ -1,3 +1,13 @@
+6.0.0.12-Beta
+    Export localization table to namespace
+    Use icons for factions in the tooltip
+    Never fail to load a client texture again
+    Force a refresh when a bnet friend events fire
+    Stop caching the friend data
+    Show "??/??" for the default on load without data
+    Refresh the summary number on load
+    Nix the throttle, refresh immediately on a chat event
+
 5.1.0.11-Beta
     Fix faction indicator
 
