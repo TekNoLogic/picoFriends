@@ -53,20 +53,20 @@ function ns.dataobj.OnEnter(self)
 	local wow_total, wow_online = GetNumFriends()
 
 	for i=1,bnet_online do
-		local presenceID, presenceName, battleTag, isBattleTagPresence, toonName,
-		      toonID, client, online, lastOnline, isAFK, isDND, broadcastText, note,
-		      isFriend, broadcastTime = BNGetFriendInfo(i)
+		local presenceID, presenceName, battleTag, isBattleTagPresence,
+		      characterName, toonID, client, online, lastOnline, isAFK, isDND,
+					broadcastText, note, isFriend, broadcastTime = BNGetFriendInfo(i)
 		note = note ~= "" and note
 
 		if online and toonID then
-			local hasFocus, toonName, client, realmName, realmID, faction, race,
-			      class, guild, area, level, gameText = BNGetToonInfo(toonID)
+			local hasFocus, characterName, client, realmName, realmID, faction, race,
+			      class, guild, area, level, gameText = BNGetGameAccountInfo(toonID)
 			local texture = BNet_GetClientTexture(client)
 			gameText = gameText..
 			           (factiontags[faction] or "")..
 			           (" |T"..texture..":0:0:0:0:64:64:4:60:4:60|t")
 
-			AddDetailedLine(mylevel, tonumber(level), class or "", toonName,
+			AddDetailedLine(mylevel, tonumber(level), class or "", characterName,
 				              status or "", note or presenceName, gameText)
 		elseif online then
 			tip:AddMultiLine(presenceName, client, "", nil,nil,nil , nil,nil,nil,
