@@ -16,7 +16,10 @@ local function AddDetailedLine(mylevel, level, class, name, status, note, area)
 	status = status or ""
 	area = area or ""
 	local levelr, levelg, levelb = .5, 1, .5
-	if not level then levelr, levelg, levelb = 1, 1, 1
+	if not level then
+		levelr, levelg, levelb = 1, 1, 1
+		level = "|cff808080".. status.. "|r"
+		status = ""
 	elseif level < (mylevel - 5) then levelr, levelg, levelb = .6, .6, .6
 	elseif level > (mylevel + 5) then levelr, levelg, levelb = 1, .5, .5 end
 	tip:AddMultiLine(
@@ -57,6 +60,7 @@ function ns.dataobj.OnEnter(self)
 		      characterName, toonID, client, online, lastOnline, isAFK, isDND,
 					broadcastText, note, isFriend, broadcastTime = BNGetFriendInfo(i)
 		note = note ~= "" and note
+		local status = isAFK and "AFK" or isDND and "DND" or ""
 
 		if online and toonID then
 			local hasFocus, characterName, client, realmName, realmID, faction, race,
