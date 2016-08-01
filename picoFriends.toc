@@ -3,9 +3,6 @@
 ## Title: picoFriends
 ## Notes: Minimalistic LDB-based friends display
 ## Author: Tekkub Stoutwrithe
-## Version: Alpha
-## X-Website: http://www.tekkub.net/
-## X-Email: tekkub-wow@googlegroups.com
 ## X-Category: Misc
 ## X-Icon: Interface\Icons\Achievement_WorldEvent_Brewmaster
 
