@@ -1,50 +1,68 @@
-6.0.0.13-Release
-    Tagging release version
+### 7.0.0.14-Beta
 
-6.0.0.12-Beta
-    Export localization table to namespace
-    Use icons for factions in the tooltip
-    Never fail to load a client texture again
-    Force a refresh when a bnet friend events fire
-    Stop caching the friend data
-    Show "??/??" for the default on load without data
-    Refresh the summary number on load
-    Nix the throttle, refresh immediately on a chat event
+* Show AFK/DND status
+* Legion fixes
 
-5.1.0.11-Beta
-    Fix faction indicator
+### 6.0.0.13-Release
 
-5.0.1.10-Release
-    Tagging stable version
+* Tagging release version
 
-5.0.1.9-Beta
-    Add support for battletags
+### 6.0.0.12-Beta
 
-4.2.0.8-Beta
-    BNGetToonInfo returns changed
+* Export localization table to namespace
+* Use icons for factions in the tooltip
+* Never fail to load a client texture again
+* Force a refresh when a bnet friend events fire
+* Stop caching the friend data
+* Show "??/??" for the default on load without data
+* Refresh the summary number on load
+* Nix the throttle, refresh immediately on a chat event
 
-4.0.0.7-Beta
-    Who needs friends that play starcraft?
+### 5.1.0.11-Beta
 
-4.0.0.6-Beta
-    Add faction tags to realid friends
+* Fix faction indicator
 
-3.3.0.5-Beta
-    Add RealID support
+### 5.0.1.10-Release
 
-3.0.3.4-Release
-    Retarded server keeps padding my notes with spaces
-    LDB type
+* Tagging stable version
 
-3.0.3.3-Beta
-    tektip!
-    Embed update
+### 5.0.1.9-Beta
 
-2.4.3.2-Beta
-    Add support for the note field
+* Add support for battletags
 
-2.4.2.1-Beta
-    Implement LDB-1.1
-    De-dongle
-    Rename to picoFriends
-    Add about panel
+### 4.2.0.8-Beta
+
+* BNGetToonInfo returns changed
+
+### 4.0.0.7-Beta
+
+* Who needs friends that play starcraft?
+
+### 4.0.0.6-Beta
+
+* Add faction tags to realid friends
+
+### 3.3.0.5-Beta
+
+* Add RealID support
+
+### 3.0.3.4-Release
+
+* Retarded server keeps padding my notes with spaces
+* LDB type
+
+### 3.0.3.3-Beta
+
+* tektip!
+* Embed update
+
+### 2.4.3.2-Beta
+
+* Add support for the note field
+
+### 2.4.2.1-Beta
+
+* Implement LDB-1.1
+* De-dongle
+* Rename to picoFriends
+* Add about panel
