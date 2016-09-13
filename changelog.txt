@@ -1,3 +1,8 @@
+### 7.0.0.16-Release
+
+* Tagging release version
+
+
 ### 7.0.0.15-Beta
 
 * Bump for botched release to WoWI
